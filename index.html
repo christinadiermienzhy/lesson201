@@ -13,102 +13,105 @@
 		const createSWwiki = function(){
 			const xhr = new XMLHttpRequest;
 			xhr.open('get', 'https://swapi.co/api/films', true);
-			xhr.send(xhr);
-			xhr.onload=function (){
-				const films  = JSON.parse(xhr.response).results;
+			xhr.send ( xhr ) ;
+			xhr.onload = function (){
+				const films  = JSON.parse ( xhr.response ) .results;
 				const wikiSection = document.createElement('section');
 				const selectForm = document.createElement('form');
-				selectForm.classList='selectForm';
+					selectForm.classList='selectForm';
 				const selectLabel = document.createElement('label');
-				selectLabel.setAttribute('for','mainSelect');
-				selectLabel.innerText = 'Выберите фильм';
+					selectLabel.setAttribute('for','mainSelect');
+					selectLabel.innerText = 'Выберите фильм';
 				const selectField = document.createElement('select');
-				selectField.classList='selectField';
-				selectField.setAttribute('id', 'mainSelect');
+					selectField.classList = 'selectField';
+					selectField.setAttribute('id', 'mainSelect');
 				const submitBtn = document.createElement('button');
-				submitBtn.innerText='Поиск';
-				submitBtn.setAttribute('type', 'submit');
-				document.body.prepend(wikiSection);
+					submitBtn.innerText = 'Поиск';
+					submitBtn.setAttribute('type', 'submit');
+				document.body.prepend ( wikiSection ) ;
 				
 				document.querySelector('section').prepend(selectForm);
 				document.querySelector('section').prepend(selectForm);
 				document.querySelector('section').prepend(selectLabel);
 				document.querySelector(' form').prepend(selectField);
 				document.querySelector(' form').append(submitBtn);
+
 					films.forEach(function(item){
-						const selectValue = document.createElement('option');
-						selectValue.setAttribute('value', item.title);
+						const selectValue = document.createElement ( 'option' ) ;
+						selectValue.setAttribute ( 'value', item.title ) ;
 						selectValue.innerText = item.title;
-						document.querySelector('select').prepend(selectValue);
+						document.querySelector ( 'select' ) .prepend(selectValue);
 					})
 				submitBtn.addEventListener('click', function(event){
 					event.preventDefault();
-					const searchFilm =  films.find((item)=> item.title===selectField.value) ;
-					//console.log(searchFilm);
-					const boxAboutFilm = document.createElement('div');
-			
-					boxAboutFilm.classList = ('boxAboutFilm' );
+					const searchFilm =  films.find((item)=> item.title === selectField.value) ;
+					
+					const boxAboutFilm = document.createElement ( 'div' ) ;
+						boxAboutFilm.classList = ('boxAboutFilm' );
 
-					const filmTitle = document.createElement('h2');
-					filmTitle.innerText = searchFilm.title;
+					const filmTitle = document.createElement ( 'h2' ) ;
+						filmTitle.innerText = searchFilm.title;
+
 					const aboutTitle = document.createElement('h3');
-					aboutTitle.innerText = ' director: '+ searchFilm.director +'\n producer: ' + searchFilm.producer + '\n relesed in:' + searchFilm.release_date;
+						aboutTitle.innerText = ' director: '+ searchFilm.director +'\n producer: ' + searchFilm.producer + '\n relesed in:' + searchFilm.release_date;
+
 					document.querySelector('section').append(boxAboutFilm);
 					document.querySelector('.boxAboutFilm:last-child').append(filmTitle);
 					document.querySelector('.boxAboutFilm:last-child').append(aboutTitle); 
 
 					 const charactersblock = document.createElement('div');
-					charactersblock.classList  = 'charactersblock';
-					 const formCharacters =  document.createElement('form');
-					 formCharacters.classList='formCharacters';
-					 const selectCharacter = document.createElement('select');
-					 selectCharacter.classList = ('selectCharacter');
-					 selectCharacter.setAttribute('id','characterList');
+						charactersblock.classList  = 'charactersblock';
 
-					  const selectLabelCharacter = document.createElement('label');
-					  selectLabelCharacter.setAttribute('for','characterList')
-					  selectLabelCharacter.innerText='Персонажи';
+					 const formCharacters =  document.createElement('form');
+						 formCharacters.classList='formCharacters';
+
+					 const selectCharacter = document.createElement('select');
+						selectCharacter.classList = ('selectCharacter');
+					 	selectCharacter.setAttribute('id','characterList');
+
+					const selectLabelCharacter = document.createElement('label');
+						selectLabelCharacter.setAttribute('for','characterList')
+						selectLabelCharacter.innerText = 'Персонажи';
 
 					 const submitCharacterBtn = document.createElement('button');
-					 submitCharacterBtn.setAttribute('type', 'submit');
-					submitCharacterBtn.innerText='Поиск';
+						submitCharacterBtn.setAttribute('type', 'submit');
+						submitCharacterBtn.innerText = 'Поиск';
 
-					  document.querySelector('.boxAboutFilm:last-child').append (charactersblock);
-					  document.querySelector('.boxAboutFilm:last-child').querySelector('.charactersblock').append (formCharacters);
+					document.querySelector('.boxAboutFilm:last-child').append (charactersblock);
+					document.querySelector('.boxAboutFilm:last-child').querySelector('.charactersblock').append (formCharacters);
 					document.querySelector('.boxAboutFilm:last-child').querySelector('.formCharacters').append (selectLabelCharacter);
-					  document.querySelector('.boxAboutFilm:last-child').querySelector('.formCharacters:last-child').append (selectCharacter);
-					
-					  document.querySelector('.boxAboutFilm:last-child').querySelector('.formCharacters:last-child').append (submitCharacterBtn);
+					document.querySelector('.boxAboutFilm:last-child').querySelector('.formCharacters:last-child').append (selectCharacter);
+					document.querySelector('.boxAboutFilm:last-child').querySelector('.formCharacters:last-child').append (submitCharacterBtn);
 					  
-					  let charactersList = [];
-					  searchFilm.characters.forEach(item=>{
+					let charactersList = [];
+					
+					searchFilm.characters.forEach(item=>{
 					  	const xhr1 = new XMLHttpRequest;
-					  	 xhr1.open('get', item, true);
-					  	 xhr1.send();
+					  	xhr1.open ( 'get', item, true);
+					  	xhr1.send();
 					  	xhr1.onload = function(){
-					  		
 
 					  		const character=JSON.parse(xhr1.response);
 					  		
 					  		charactersList.push(character);
 					  		
 					  		const characterName = document.createElement('option');
-					  		characterName.innerText=character.name;
+					  			characterName.innerText=character.name;
 					  		document.querySelector('.boxAboutFilm:last-child').querySelector('.selectCharacter').append(characterName);
 					  	}
 
 					  })
 					  
-					  submitCharacterBtn.addEventListener('click', function(event){
+					submitCharacterBtn.addEventListener('click', function(event){
 					  	event.preventDefault();
-					  	const searchedCharacter = charactersList.find(item=> item.name===selectCharacter.value);
-					  	console.log(searchedCharacter);
+					  	const searchedCharacter = charactersList.find ( item => item.name === selectCharacter.value);
+					  	
 					  	const charactersAbout  = document.createElement('div');
-					  	charactersAbout.classList=('charactersAbout');
+					  		charactersAbout.classList = ('charactersAbout');
 
 					  	const characterDetails  = document.createElement('p');
-					  	characterDetails.classList=('characterDetails');
-					  	characterDetails.innerText= 'Имя:'+searchedCharacter.name+'\nДень рождения:'+searchedCharacter.birth_year+'\n Цвет глаз:'+searchedCharacter.eye_color+'\nПол:'+searchedCharacter.gender+'\n Цвет волос::'+ searchedCharacter.hair_color+'\nРост:'+ searchedCharacter.height+'\nВес:'+ searchedCharacter.mass;
+					  		characterDetails.classList=('characterDetails');
+					  		characterDetails.innerText= 'Имя:'+searchedCharacter.name+'\nДень рождения:'+searchedCharacter.birth_year+'\n Цвет глаз:'+searchedCharacter.eye_color+'\nПол:'+searchedCharacter.gender+'\n Цвет волос::'+ searchedCharacter.hair_color+'\nРост:'+ searchedCharacter.height+'\nВес:'+ searchedCharacter.mass;
 
 					  	event.target.parentElement.append(charactersAbout);
 					  	event.target.parentElement.querySelector('.charactersAbout').append(characterDetails);
@@ -116,136 +119,123 @@
 					  })
 
 					const planetsblock = document.createElement('div');
-					planetsblock.classList  = 'planetsblock';
-					 const formPlanets =  document.createElement('form');
-					 formPlanets.classList='formPlanets';
-					 const selectPlanet = document.createElement('select');
-					 selectPlanet.classList = ('selectPlanet');
-					 selectPlanet.setAttribute('id','planetList');
+						planetsblock.classList  = 'planetsblock';
 
-					  const selectLabelPlanet = document.createElement('label');
-					  selectLabelPlanet.setAttribute('for','planetList')
-					  selectLabelPlanet.innerText='Планеты';
+					const formPlanets =  document.createElement('form');
+					 	formPlanets.classList = 'formPlanets';
+
+					 const selectPlanet = document.createElement('select');
+					 	selectPlanet.classList = ('selectPlanet');
+						selectPlanet.setAttribute('id','planetList');
+
+					const selectLabelPlanet = document.createElement('label');
+						selectLabelPlanet.setAttribute('for','planetList')
+						selectLabelPlanet.innerText = 'Планеты';
 
 					 const submitPlanetBtn = document.createElement('button');
 					 submitPlanetBtn.setAttribute('type', 'submit');
 					submitPlanetBtn.innerText='Поиск';
 
-					  document.querySelector('.boxAboutFilm:last-child').append (planetsblock);
-					  document.querySelector('.boxAboutFilm:last-child').querySelector('.planetsblock').append (formPlanets);
+					document.querySelector('.boxAboutFilm:last-child').append (planetsblock);
+					document.querySelector('.boxAboutFilm:last-child').querySelector('.planetsblock').append (formPlanets);
 					document.querySelector('.boxAboutFilm:last-child').querySelector('.formPlanets').append (selectLabelPlanet);
-					  document.querySelector('.boxAboutFilm:last-child').querySelector('.formPlanets:last-child').append (selectPlanet);
-					
-					  document.querySelector('.boxAboutFilm:last-child').querySelector('.formPlanets:last-child').append (submitPlanetBtn);
+					document.querySelector('.boxAboutFilm:last-child').querySelector('.formPlanets:last-child').append (selectPlanet);
+					document.querySelector('.boxAboutFilm:last-child').querySelector('.formPlanets:last-child').append (submitPlanetBtn);
 
-					  let planetsList=[];
+					let planetsList=[];
 					  
-					  searchFilm.planets.forEach(item=>{
+					searchFilm.planets.forEach ( item => {
 					  	const xhr2 = new XMLHttpRequest;
-					  	 xhr2.open('get', item, true);
-					  	 xhr2.send();
+					  	xhr2.open ( 'get', item, true ) ;
+					  	xhr2.send();
 					  	xhr2.onload = function(){
-
 					  		const planet=JSON.parse(xhr2.response);
-					  		//console.log(planet);
+				
 					  		planetsList.push(planet);
+
 					  		const planetName = document.createElement('option');
-					  		planetName.innerText=planet.name;
+					  			planetName.innerText = planet.name;
 					  		document.querySelector('.boxAboutFilm:last-child').querySelector('.selectPlanet').append(planetName);
 					  	}
 
 					  })
 
-					  	 submitPlanetBtn.addEventListener('click', function(event){
+					submitPlanetBtn.addEventListener('click', function(event){
 					  	event.preventDefault();
-					  	const searchedPlanet = planetsList.find(item=> item.name===selectPlanet.value);
-					  	console.log(searchedPlanet);
+
+					  	const searchedPlanet = planetsList.find (item => item.name === selectPlanet.value);
+					  	
 					  	const planetsAbout  = document.createElement('div');
-					  	planetsAbout.classList=('planetsAbout');
+					  		planetsAbout.classList=('planetsAbout');
 
 					  	const planetDetails  = document.createElement('p');
-					  	planetDetails.classList=('planetDetails');
-					  	planetDetails.innerText= 'Название:'+searchedPlanet.name+'\n Планетарный год:'+searchedPlanet.rotation_period+'\n Население:'+searchedPlanet.population+'\n Природа/местность :'+searchedPlanet.terrain+'\n Климат:'+ searchedPlanet.climate+'\n Диаметр:'+ searchedPlanet.diameter+'\n Гравитация:'+ searchedPlanet.gravity;
+					  		planetDetails.classList=('planetDetails');
+					  		planetDetails.innerText= 'Название:'+searchedPlanet.name+'\n Планетарный год:'+searchedPlanet.rotation_period+'\n Население:'+searchedPlanet.population+'\n Природа/местность :'+searchedPlanet.terrain+'\n Климат:'+ searchedPlanet.climate+'\n Диаметр:'+ searchedPlanet.diameter+'\n Гравитация:'+ searchedPlanet.gravity;
 
-					  	event.target.parentElement.append(planetsAbout);
-					  	event.target.parentElement.querySelector('.planetsAbout').append(planetDetails);
+					  	event.target.parentElement.append ( planetsAbout ) ;
+					  	event.target.parentElement.querySelector ( '.planetsAbout' ) .append ( planetDetails );
 
 					  })
 
-					   const vehiclesblock = document.createElement('div');
-					vehiclesblock.classList  = 'vehiclesblock';
+					const vehiclesblock = document.createElement('div');
+						vehiclesblock.classList  = 'vehiclesblock';
+
 					 const formVehicles =  document.createElement('form');
-					 formVehicles.classList='formVehicles';
+					 	formVehicles.classList='formVehicles';
+
 					 const selectVehicle = document.createElement('select');
-					 selectVehicle.classList = ('selectVehicle');
-					 selectVehicle.setAttribute('id','vehicleList');
+					 	selectVehicle.classList = ('selectVehicle');
+						selectVehicle.setAttribute('id','vehicleList');
 
-					  const selectLabelVehicle = document.createElement('label');
-					  selectLabelVehicle.setAttribute('for','vehicleList')
-					  selectLabelVehicle.innerText='Корабли';
+					const selectLabelVehicle = document.createElement('label');
+						selectLabelVehicle.setAttribute('for','vehicleList')
+						selectLabelVehicle.innerText = 'Корабли';
 
-					 const submitVehicleBtn = document.createElement('button');
-					 submitVehicleBtn.setAttribute('type', 'submit');
-					submitVehicleBtn.innerText='Поиск';
+					const submitVehicleBtn = document.createElement('button');
+						submitVehicleBtn.setAttribute('type', 'submit');
+						submitVehicleBtn.innerText = 'Поиск';
 
-					  document.querySelector('.boxAboutFilm:last-child').append (vehiclesblock);
-					  document.querySelector('.boxAboutFilm:last-child').querySelector('.vehiclesblock').append (formVehicles);
+					document.querySelector('.boxAboutFilm:last-child').append (vehiclesblock);
+					document.querySelector('.boxAboutFilm:last-child').querySelector('.vehiclesblock').append (formVehicles);
 					document.querySelector('.boxAboutFilm:last-child').querySelector('.formVehicles').append (selectLabelVehicle);
-					  document.querySelector('.boxAboutFilm:last-child').querySelector('.formVehicles:last-child').append (selectVehicle);
-					
-					  document.querySelector('.boxAboutFilm:last-child').querySelector('.formVehicles:last-child').append (submitVehicleBtn);
+					document.querySelector('.boxAboutFilm:last-child').querySelector('.formVehicles:last-child').append (selectVehicle);
+					document.querySelector('.boxAboutFilm:last-child').querySelector('.formVehicles:last-child').append (submitVehicleBtn);
 					  
-					  let vehiclesList=[];
-					  searchFilm.vehicles.forEach(item=>{
+					let vehiclesList = [];
+					searchFilm.vehicles.forEach( item => {
 					  	const xhr3 = new XMLHttpRequest;
 					  	 xhr3.open('get', item, true);
 					  	 xhr3.send();
 					  	xhr3.onload = function(){
 
-					  		const vehicle=JSON.parse(xhr3.response);
-					  		//console.log(vehicle);
-					  		vehiclesList.push(vehicle);
-					  		const vehicleName = document.createElement('option');
-					  		vehicleName.innerText=vehicle.name;
-					  		document.querySelector('.boxAboutFilm:last-child').querySelector('.selectVehicle').append(vehicleName);
+							const vehicle=JSON.parse(xhr3.response);
+							  	vehiclesList.push(vehicle);
+
+							const vehicleName = document.createElement('option');
+							  		vehicleName.innerText = vehicle.name;
+							document.querySelector('.boxAboutFilm:last-child').querySelector('.selectVehicle').append(vehicleName);
 					  	}
 
-					  })
+					})
 
-					  	 submitVehicleBtn.addEventListener('click', function(event){
+					submitVehicleBtn.addEventListener ( 'click', function ( event ) {
 					  	event.preventDefault();
-					  	const searchedVehicle = vehiclesList.find(item=> item.name===selectVehicle.value);
-					  	console.log(searchedVehicle);
+
+					  	const searchedVehicle = vehiclesList.find( item => item.name === selectVehicle.value);
 					  	const vehicleAbout  = document.createElement('div');
-					  	vehicleAbout.classList=('vehicleAbout');
+					  		vehicleAbout.classList=('vehicleAbout');
 
 					  	const vehicleDetails  = document.createElement('p');
-					  	vehicleDetails.classList=('vehicleDetails');
-					  	vehicleDetails.innerText= 'Название:'+searchedVehicle.name+'\n Модель:'+searchedVehicle.model+'\n Пассажиры:'+searchedVehicle.passengers+'\n Производитель:'+searchedVehicle.manufacturer+'\n Длина:'+ searchedVehicle.length+'\n Экипаж:'+ searchedVehicle.crew;
-					  	event.target.parentElement.append(vehicleAbout);
-					  	event.target.parentElement.querySelector('.vehicleAbout').append(vehicleDetails);
+					  		vehicleDetails.classList=('vehicleDetails');
+					  		vehicleDetails.innerText= 'Название:'+searchedVehicle.name+'\n Модель:' + searchedVehicle.model + '\n Пассажиры:'+ searchedVehicle.passengers + '\n Производитель:' + searchedVehicle.manufacturer +  '\n Длина:'+ searchedVehicle.length + '\n Экипаж:' +  searchedVehicle.crew;
+					  	event.target.parentElement.append ( vehicleAbout ) ;
+					  	event.target.parentElement.querySelector ( '.vehicleAbout' ) .append ( vehicleDetails );
 
 					  })
-
-
-
-
-
-
-
-
-
-					 
-
-
-
-
 				})
-
 			}
 		}
 		createSWwiki();
-
 
 </script>
 </body>
